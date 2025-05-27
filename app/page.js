@@ -6,17 +6,17 @@ export default function Home() {
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-          Post Your Ads, <span className="text-blue-600 dark:text-blue-400">Reach More</span>
+          Post Your Events, <span className="text-blue-600 dark:text-blue-400">Reach More</span>
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-          The simplest way to create and manage your advertisements. Reach your target audience in minutes.
+          The simplest way to create and manage your events. Reach your target audience in minutes.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors">
-            Post an Ad
+            Post an Event
           </button>
           <button className="px-8 py-3 bg-white text-gray-900 rounded-full font-medium border border-gray-200 hover:bg-gray-50 transition-colors">
-            Browse Ads
+            Browse Events
           </button>
         </div>
       </div>
@@ -31,7 +31,7 @@ export default function Home() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Easy Posting</h3>
-            <p className="text-gray-600 dark:text-gray-300">Create and publish your ads in minutes with our simple interface.</p>
+            <p className="text-gray-600 dark:text-gray-300">Create and publish your events in minutes with our simple interface.</p>
           </div>
           <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
@@ -41,7 +41,7 @@ export default function Home() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Wide Reach</h3>
-            <p className="text-gray-600 dark:text-gray-300">Get your ads seen by thousands of potential customers.</p>
+            <p className="text-gray-600 dark:text-gray-300">Get your events seen by thousands of people.</p>
           </div>
           <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
@@ -50,7 +50,7 @@ export default function Home() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Secure & Reliable</h3>
-            <p className="text-gray-600 dark:text-gray-300">Your ads are safe with our secure and reliable platform.</p>
+            <p className="text-gray-600 dark:text-gray-300">Your events are safe with our secure and reliable platform.</p>
           </div>
         </div>
       </div>
@@ -60,10 +60,10 @@ export default function Home() {
         <div className="bg-blue-600 dark:bg-blue-700 rounded-2xl p-8 md:p-12 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of users who are already posting their ads and reaching their target audience.
+            Join thousands of users who are already posting their events and reaching their target audience.
           </p>
           <button className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition-colors">
-            Create Your First Ad
+            Create Your First Event
           </button>
         </div>
       </div>

@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import { ApiClient } from '../../apiClient/apiClient';
 
-export default function CreateAd() {
+export default function CreateEvent() {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    price: '',
+    name: '',
+    location: '',
+    details: '',
+    datetime: ''
   });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
@@ -22,12 +23,10 @@ export default function CreateAd() {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = 'Title is required';
-    if (!formData.description.trim()) newErrors.description = 'Description is required';
-    if (!formData.price.trim()) newErrors.price = 'Price is required';
-    else if (isNaN(Number(formData.price)) || Number(formData.price) < 0) {
-      newErrors.price = 'Please enter a valid price';
-    }
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.location.trim()) newErrors.location = 'Location is required';
+    if (!formData.details.trim()) newErrors.details = 'Details are required';
+    if (!formData.datetime.trim()) newErrors.datetime = 'Date and time are required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -39,13 +38,13 @@ export default function CreateAd() {
       setLoading(true);
       try {
         const apiClient = new ApiClient();
-        const response = await apiClient.addAd(formData.title, formData.description, formData.price);
+        const response = await apiClient.addEvent(formData.name, formData.location, formData.details, formData.datetime);
         setSuccess(true);
-        setFormData({ title: '', description: '', price: '' });
+        setFormData({ name: '', location: '', details: '', datetime: ''});
       } catch (err) {
-        console.error('Error creating ad:', err.response || err); // Debug log
+        console.error('Error creating event:', err.response || err); // Debug log
         setErrors({ 
-          submit: err.response?.data?.message || 'Failed to create ad. Please try again.' 
+          submit: err.response?.data?.message || 'Failed to create event. Please try again.' 
         });
       }
       setLoading(false);
@@ -63,50 +62,66 @@ export default function CreateAd() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Create New Advertisement</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Create New Event</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
           <input 
             type="text" 
-            id="title" 
-            name="title" 
-            value={formData.title} 
+            id="name" 
+            name="name" 
+            value={formData.name} 
             onChange={handleChange} 
-            className={`w-full px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
-            placeholder="Enter ad title" 
+            className={`w-full px-4 py-2 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+            placeholder="Enter event name" 
           />
-          {errors.title && (<p className="mt-1 text-sm text-red-500">{errors.title}</p>)}
+          {errors.name && (<p className="mt-1 text-sm text-red-500">{errors.name}</p>)}
         </div>
+
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+          <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
           <textarea 
-            id="description" 
-            name="description" 
-            value={formData.description} 
+            id="location" 
+            name="location" 
+            value={formData.location} 
             onChange={handleChange} 
             rows={4} 
-            className={`w-full px-4 py-2 rounded-lg border ${errors.description ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
-            placeholder="Enter ad description" 
+            className={`w-full px-4 py-2 rounded-lg border ${errors.location ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+            placeholder="Enter event location" 
           />
-          {errors.description && (<p className="mt-1 text-sm text-red-500">{errors.description}</p>)}
+          {errors.location && (<p className="mt-1 text-sm text-red-500">{errors.location}</p>)}
         </div>
+
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Price</label>
+          <label htmlFor="details" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Details</label>
+          <textarea 
+            id="details" 
+            name="details" 
+            value={formData.details} 
+            onChange={handleChange} 
+            rows={4} 
+            className={`w-full px-4 py-2 rounded-lg border ${errors.details ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+            placeholder="Enter event details" 
+          />
+          {errors.details && (<p className="mt-1 text-sm text-red-500">{errors.details}</p>)}
+        </div>
+
+        <div>
+          <label htmlFor="datetime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date and Time</label>
           <div className="relative">
             <span className="absolute left-4 top-2 text-gray-500 dark:text-gray-400">$</span>
             <input 
-              type="text" 
-              id="price" 
-              name="price" 
-              value={formData.price} 
+              type="datetime-local" 
+              id="datetime" 
+              name="datetime" 
+              value={formData.datetime} 
               onChange={handleChange} 
-              className={`w-full pl-8 pr-4 py-2 rounded-lg border ${errors.price ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
-              placeholder="0.00" 
+              className={`w-full pl-8 pr-4 py-2 rounded-lg border ${errors.datetime ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
             />
           </div>
-          {errors.price && (<p className="mt-1 text-sm text-red-500">{errors.price}</p>)}
+          {errors.datetime && (<p className="mt-1 text-sm text-red-500">{errors.datetime}</p>)}
         </div>
+
         {errors.submit && (<p className="text-red-500 text-sm">{errors.submit}</p>)}
         <button 
           type="submit" 
@@ -115,7 +130,7 @@ export default function CreateAd() {
         >
           {loading ? 'Creating...' : 'Create Advertisement'}
         </button>
-        {success && (<p className="text-green-600 text-center mt-4">Ad created successfully!</p>)}
+        {success && (<p className="text-green-600 text-center mt-4">Event created successfully!</p>)}
       </form>
     </div>
   );
