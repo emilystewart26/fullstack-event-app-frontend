@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:3001/";
+const url = "http://localhost:3000/";
 
 export class ApiClient {
   constructor() {
@@ -87,38 +87,35 @@ export class ApiClient {
     }
   }
 
-  async getAds() {
+  async getEvents() {
     try {
-      const response = await this.apiCall("get", url + "ads");
-      return response;
+      const response = await this.apiCall("get", url + "events");
+      return response.data.events;
     } catch (error) {
       throw error;
     }
   }
 
-  async addAd(title, description, price) {
+  async addEvent(name, location, details, datetime) {
     try {
-      const numericPrice = Number(price);
-      if (isNaN(numericPrice)) {
-        throw new Error('Price must be a valid number');
-      }
-      return this.apiCall("post", url + "ads", { 
-        title, 
-        description, 
-        price: numericPrice 
+      return this.apiCall("post", url + "events", { 
+        name,
+        location,
+        details,
+        datetime
       });
     } catch (error) {
-      console.error('addAd error:', error.response || error); // Debug log
+      console.error('addEvent error:', error.response || error); // Debug log
       throw error;
     }
   }
 
-  async removeAd(id) {
-    return this.apiCall("delete", `${url}ads/${id}`);
+  async removeEvent(id) {
+    return this.apiCall("delete", `${url}events/${id}`);
   }
 
-  async updateAd(id, title, description, price) {
-    return this.apiCall("put", `${url}ads/${id}`, { title, description, price });
+  async updateEvent(id, name, location, details, datetime) {
+    return this.apiCall("put", `${url}events/${id}`, { name, location, details, datetime });
   }
 
   async login(email, password) {

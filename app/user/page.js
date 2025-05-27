@@ -28,7 +28,7 @@ export default function UserLoginPage() {
       
       // Check if we have a token
       if (response.data && response.data.token) {
-        router.push('/ads');
+        router.push('/events');
       } else {
         setError('Login successful but no token received');
       }
