@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:3000/";
+const url = "http://localhost:3001/";
 
 export class ApiClient {
   constructor() {
@@ -68,6 +68,7 @@ export class ApiClient {
   }
 
   async apiCall(method, url, data) {
+    console.log(`API Call: ${method} ${url}`, data);
     try {
       const response = await this.axiosInstance({
         method,
@@ -90,7 +91,7 @@ export class ApiClient {
   async getEvents() {
     try {
       const response = await this.apiCall("get", url + "events");
-      return response.data.events;
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -119,6 +120,7 @@ export class ApiClient {
   }
 
   async login(email, password) {
+    console.log("test")
     try {
       const response = await this.apiCall("post", url + "auth/login", { email, password });
       
