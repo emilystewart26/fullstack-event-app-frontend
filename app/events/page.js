@@ -17,7 +17,7 @@ export default function EventsPage() {
           return;
         }
         const response = await apiClient.getEvents();
-        setEvents(response.data);
+        setEvents(response);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to fetch events. Please try again later.');
       } finally {
@@ -76,7 +76,7 @@ export default function EventsPage() {
                 </p>
                 <div className="flex justify-between items-center">
                   <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    ${event.details}
+                    {event.details}
                   </span>
                   <span className="text-sm text-gray-500 dark:text-gray-400">
                   {new Date(event.datetime).toLocaleString()}
