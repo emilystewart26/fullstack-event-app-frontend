@@ -5,7 +5,7 @@ export class ApiClient {
   constructor() {
     // Initialize axios with default headers
     this.axiosInstance = axios.create({
-      headers: {
+      withCredentials: true, headers: {
         'Authorization': `Bearer ${this.getToken()}`
       }
     });
