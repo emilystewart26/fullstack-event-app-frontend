@@ -109,7 +109,6 @@ export default function CreateEvent() {
         <div>
           <label htmlFor="datetime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date and Time</label>
           <div className="relative">
-            <span className="absolute left-4 top-2 text-gray-500 dark:text-gray-400">$</span>
             <input 
               type="datetime-local" 
               id="datetime" 
@@ -128,7 +127,7 @@ export default function CreateEvent() {
           disabled={loading} 
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
         >
-          {loading ? 'Creating...' : 'Create Advertisement'}
+          {loading ? 'Creating...' : 'Create Event'}
         </button>
         {success && (<p className="text-green-600 text-center mt-4">Event created successfully!</p>)}
       </form>
