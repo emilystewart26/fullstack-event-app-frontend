@@ -1,13 +1,12 @@
-import Image from "next/image";
+"use client";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="bg-purple-700">
-      
-      
+           
       {/* Navbar - moved to Navigation.js*/}
 
-      
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
@@ -22,12 +21,16 @@ export default function Home() {
             Join thousands of users who are already posting their events and reaching their target audience.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="px-8 py-3 bg-indigo-950 text-white rounded-full font-medium">
+          <Link href="/create">
+          <button type="submit" className="px-8 py-3 bg-indigo-950 text-white rounded-full font-medium">
             Post a new Event
           </button>
-          <button className="px-8 py-3 bg-indigo-950 text-white rounded-full font-medium">
+          </Link>
+          <Link href="/events">
+          <button type="submit" className="px-8 py-3 bg-indigo-950 text-white rounded-full font-medium">
             Browse Events
           </button>
+          </Link>
         </div>
         
 
