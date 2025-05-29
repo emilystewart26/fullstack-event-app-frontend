@@ -7,6 +7,13 @@ export default function EventsPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -105,17 +112,12 @@ export default function EventsPage() {
                 <p className="text-gray-600 mb-4 line-clamp-3">
                   {event.location}
                 </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-blue-600">
+                  <p className="text-lg font-semi text-gray-900 dark:text-white">
                     {event.details}
-                  </span>
-                  <span className="text-sm text-gray-5000">
-                  {new Date(event.datetime).toLocaleString()}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(event.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
+                  </p>
+                  <div className="text-md text-blue-600 dark:text-white">
+                  {new Date(event.datetime).toLocaleDateString(undefined, options)} at {new Date(event.datetime).toLocaleTimeString()}
+                  </div>
               </div>
               <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
                 <form action="/api/contact" method="POST">

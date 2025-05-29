@@ -164,7 +164,7 @@ export default function CreateEvent() {
           disabled={loading} 
           className="w-full bg-indigo-950 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
         >
-          {loading ? 'Creating...' : 'Create Advertisement'}
+          {loading ? 'Creating...' : 'Create Event'}
         </button>
         {success && (<p className="text-green-600 text-center mt-4">Event created successfully!</p>)}
       </form>
