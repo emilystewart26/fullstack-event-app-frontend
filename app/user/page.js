@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ApiClient } from '../../apiClient/apiClient';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function UserLoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -87,6 +88,11 @@ export default function UserLoginPage() {
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
+        <Link href="/register">
+          <p className='mt-6 text-center text-sm text-slate-400 hover:underline hover:cursor-pointer hover:text-slate-200'>
+            Don't have account? Click here to register.
+          </p>
+        </Link>
       </form>
     </div>
   );

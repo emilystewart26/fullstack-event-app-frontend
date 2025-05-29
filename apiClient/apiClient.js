@@ -78,6 +78,7 @@ export class ApiClient {
       });
       return response;
     } catch (error) {
+      console.log(error)
       console.error('API call error:', error.response || error); // Debug log
       if (error.response && error.response.status === 401) {
         this.removeToken();
@@ -132,6 +133,16 @@ export class ApiClient {
         throw new Error('No token received from server');
       }
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async register(email, password) {
+    console.log("test")
+    try {
+      return this.apiCall("post", url + "auth/register", { email, password })
+    } catch (error) {
+      console.error('userRegister error:', error.response || error)
       throw error;
     }
   }
