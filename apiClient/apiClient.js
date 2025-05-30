@@ -3,7 +3,6 @@ const url = "http://localhost:3001/";
 
 export class ApiClient {
   constructor() {
-    // Initialize axios with default headers
     this.axiosInstance = axios.create({
       withCredentials: true,
       headers: {
@@ -11,7 +10,6 @@ export class ApiClient {
       }
     });
 
-    // Add request interceptor to ensure token is set for every request
     this.axiosInstance.interceptors.request.use(
       (config) => {
         const token = this.getToken();
@@ -20,12 +18,9 @@ export class ApiClient {
         }
         return config;
       },
-      (error) => {
-        return Promise.reject(error);
-      }
+      (error) => Promise.reject(error)
     );
 
-    // Add response interceptor to handle auth errors
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -42,8 +37,7 @@ export class ApiClient {
 
   getToken() {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('authToken');
-      return token;
+      return localStorage.getItem('authToken');
     }
     return null;
   }
@@ -51,7 +45,6 @@ export class ApiClient {
   setToken(token) {
     if (typeof window !== 'undefined') {
       localStorage.setItem('authToken', token);
-      // Update axios default headers
       this.axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
     }
   }
@@ -64,22 +57,16 @@ export class ApiClient {
   }
 
   isLoggedIn() {
-    const isLoggedIn = !!this.getToken();
-    return isLoggedIn;
+    return !!this.getToken();
   }
 
   async apiCall(method, url, data) {
     console.log(`API Call: ${method} ${url}`, data);
     try {
-      const response = await this.axiosInstance({
-        method,
-        url,
-        data,
-      });
+      const response = await this.axiosInstance({ method, url, data });
       return response;
     } catch (error) {
-      console.log(error)
-      console.error('API call error:', error.response || error); // Debug log
+      console.error('API call error:', error.response || error);
       if (error.response && error.response.status === 401) {
         this.removeToken();
         if (typeof window !== 'undefined') {
@@ -90,70 +77,32 @@ export class ApiClient {
     }
   }
 
+  // Your other methods like getEvents, addEvent, etc.
   async getEvents() {
-    try {
-      const response = await this.apiCall("get", url + "events");
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await this.apiCall("get", url + "events");
+    return response.data;
   }
 
   async getEventById(id) {
-        try {
-            const response = await this.apiCall("get", url + `events/${id}`)
-            return response.data
-        } catch (error) {
-            throw error
-        }
-    }
+    const response = await this.apiCall("get", url + `events/${id}`);
+    return response.data;
+  }
 
   async getEventsByUserId(userId) {
-      try {
-        const response = await this.apiCall("get", url + `events/userid/${userId}`)
-        return response.data
-      } catch (error) {
-        console.error("getEventsByUserId error:", error.response || error)
-        throw error
-      }
+    const response = await this.apiCall("get", url + `events/userid/${userId}`);
+    return response.data;
   }
 
   async getEventByName(name) {
-        try {
-            return this.apiCall(
-                "get",
-                url + `events/name/${encodeURIComponent(name)}`
-            )
-        } catch (error) {
-            console.error("getEventByName error:", error.response || error)
-            throw error
-    };
+    return this.apiCall("get", url + `events/name/${encodeURIComponent(name)}`);
   }
 
   async getEventsByLocation(location) {
-        try {
-            return this.apiCall(
-                "get",
-                url + `events/location/${encodeURIComponent(location)}`
-            )
-        } catch (error) {
-            console.error("getEventsByLocation error:", error.response || error)
-            throw error
-        }
-    }
+    return this.apiCall("get", url + `events/location/${encodeURIComponent(location)}`);
+  }
 
   async addEvent(name, location, details, datetime) {
-    try {
-      return this.apiCall("post", url + "events", { 
-        name,
-        location,
-        details,
-        datetime
-      });
-    } catch (error) {
-      console.error('addEvent error:', error.response || error); // Debug log
-      throw error;
-    }
+    return this.apiCall("post", url + "events", { name, location, details, datetime });
   }
 
   async removeEvent(id) {
@@ -165,29 +114,19 @@ export class ApiClient {
   }
 
   async login(email, password) {
-    console.log("test")
-    try {
-      const response = await this.apiCall("post", url + "auth/login", { email, password });
-      
-      if (response.data && response.data.token) {
-        this.setToken(response.data.token);
-        return response;
-      } else {
-        throw new Error('No token received from server');
-      }
-    } catch (error) {
-      throw error;
+    console.log("test login");
+    const response = await this.apiCall("post", url + "auth/login", { email, password });
+    if (response.data?.token) {
+      this.setToken(response.data.token);
+      return response;
+    } else {
+      throw new Error('No token received from server');
     }
   }
 
   async register(email, password) {
-    console.log("test")
-    try {
-      return this.apiCall("post", url + "auth/register", { email, password })
-    } catch (error) {
-      console.error('userRegister error:', error.response || error)
-      throw error;
-    }
+    console.log("test register");
+    return this.apiCall("post", url + "auth/register", { email, password });
   }
 
   logout() {
@@ -197,3 +136,6 @@ export class ApiClient {
     }
   }
 }
+
+// For dynamic updating of navbar
+export const apiClient = new ApiClient();
