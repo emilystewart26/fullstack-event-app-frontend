@@ -3,8 +3,10 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-purple-700">          
+    <div className="bg-purple-700">
+           
       {/* Navbar - moved to Navigation.js*/}
+
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
