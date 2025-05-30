@@ -61,14 +61,14 @@ export default function CreateEvent() {
   };
 
   return (
-    <div className="bg-purple-700">
+    <div className="min-h-screen flex items-center justify-center bg-purple-700 dark:bg-gray-900">
+      <form 
+        onSubmit={handleSubmit} 
+        className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md w-full max-w-md space-y-6">
 
-{/* Navbar - moved to Navigation.js in globalComponents */}
-    
-{/* Form */}
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-white dark:text-white mb-8">Create New Event</h1>
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg">
+          <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white text-center">
+                    Create Event
+                </h1>
         
         {/* Name */}
         <div>
@@ -142,11 +142,6 @@ export default function CreateEvent() {
         </button>
         {success && (<p className="text-green-600 text-center mt-4">Event created successfully!</p>)}
       </form>
-    </div>
-
-{/* Footer - moved to globalComponents */}
-
-
     </div>
   );
 }

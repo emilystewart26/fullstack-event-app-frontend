@@ -32,6 +32,16 @@ export default function Home() {
           </button>
           </Link>
         </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+          <p>Not registered yet?</p>
+          <Link href="/register">
+          <button type="submit" className="font-bold hover:underline hover:cursor-pointer"
+          >
+            Click here to join!
+          </button>
+          </Link>
+          </div>
         
 
       {/* Features Section */}

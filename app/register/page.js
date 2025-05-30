@@ -55,7 +55,7 @@ export default function UserRegisterPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen flex items-center justify-center bg-purple-700 dark:bg-gray-900">
             <form
                 onSubmit={handleSubmit}
                 className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md w-full max-w-md"
@@ -106,7 +106,7 @@ export default function UserRegisterPage() {
                         htmlFor="password"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                     >
-                        Password
+                        Re-enter password
                     </label>
                     <input
                         type="password"
@@ -150,7 +150,7 @@ export default function UserRegisterPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
+                    className="w-full bg-indigo-950 text-white py-2 px-4 rounded-lg font-medium hover:cursor-pointer hover:bg-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
                 >
                     {loading ? "Registering user..." : "Register"}
                 </button>
