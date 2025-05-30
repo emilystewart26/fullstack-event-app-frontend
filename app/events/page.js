@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../apiClient/apiClient';
 
@@ -7,6 +6,7 @@ export default function EventsPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   
   const options = {
     weekday: "short",
@@ -19,10 +19,10 @@ export default function EventsPage() {
     const fetchEvents = async () => {
      try {
         const apiClient = new ApiClient();
-        /*if (!apiClient.isLoggedIn()) {
+        if (!apiClient.isLoggedIn()) {
           window.location.href = '/unauthorized';
           return;
-        }*/
+        }
         const response = await apiClient.getEvents();
         setEvents(response);
       } catch (err) {
@@ -33,7 +33,29 @@ export default function EventsPage() {
     };
 
     fetchEvents();
-  }, []);
+  }, [events]);
+
+  // DELETE - Works but needs further review 
+ const deleteEvent = async (id) => {
+  if (!id) {
+    setError('Invalid event ID.');
+    return;
+  }
+  setLoading(true);
+  setSuccess(false);
+  try {
+    const apiClient = new ApiClient();
+    const response = await apiClient.removeEvent(id);
+    if (response.data) {setSuccess(true)};
+    return; 
+  } catch (err) {
+    setError(err?.response?.data?.message || 'Failed to delete event. Please try again later.');
+  } finally {
+    setLoading(false);
+  }
+};
+//=============================
+
 
   if (loading) {
     return (
@@ -112,7 +134,7 @@ export default function EventsPage() {
                   </button>
                   <button 
                     className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                    //TODO: onClick={()=> deleteEvent(event._id)}
+                    onClick={()=> deleteEvent(event._id)}
                   >
                     Delete
                   </button>

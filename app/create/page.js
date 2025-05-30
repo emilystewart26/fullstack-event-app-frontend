@@ -16,9 +16,9 @@ export default function CreateEvent() {
 
   useEffect(() => {
     const apiClient = new ApiClient();
-    /*if (!apiClient.isLoggedIn()) {
+    if (!apiClient.isLoggedIn()) {
       window.location.href = '/unauthorized';
-    }*/
+    }
   }, []);
 
   const validateForm = () => {
