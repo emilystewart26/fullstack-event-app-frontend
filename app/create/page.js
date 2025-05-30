@@ -141,72 +141,27 @@ export default function CreateEvent() {
                     </div>
                 </div>
             </nav>
+                    {/* Navbar - moved to Navigation.js in globalComponents */}
 
-            {/* Form */}
-            <div className="max-w-2xl mx-auto p-6">
-                <h1 className="text-3xl font-bold text-white dark:text-white mb-8">
-                    Create New Event
-                </h1>
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-6 bg-white p-6 rounded-lg"
-                >
-                    {/* Name */}
-                    <div>
-                        <label
-                            htmlFor="name"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                        >
-                            Event Name
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-2 rounded-lg border ${
-                                errors.name
-                                    ? "border-red-500"
-                                    : "border-gray-300 dark:border-gray-600"
-                            } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                            placeholder="Enter event name"
-                        />
-                        {errors.name && (
-                            <p className="mt-1 text-sm text-red-500">
-                                {errors.name}
-                            </p>
-                        )}
-                    </div>
+                    {/* Form */}
+                        <div className="max-w-2xl mx-auto p-6">
+                          <h1 className="text-3xl font-bold text-white dark:text-white mb-8">Create New Event</h1>
+                          <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg">
 
-                    {/* Location */}
-                    <div>
-                        <label
-                            htmlFor="location"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                        >
-                            Location
-                        </label>
-                        <input
-                            id="location"
-                            name="location"
-                            value={formData.location}
-                            onChange={handleChange}
-                            rows={4}
-                            className={`w-full px-4 py-2 rounded-lg border ${
-                                errors.location
-                                    ? "border-red-500"
-                                    : "border-gray-300 dark:border-gray-600"
-                            } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                            placeholder="Enter event location"
-                        />
-                        {errors.location && (
-                            <p className="mt-1 text-sm text-red-500">
-                                {errors.location}
-                            </p>
-                        )}
-                    </div>
-
+                            {/* Name */}
+                            <div>
+                              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Name</label>
+                              <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                value={formData.name} 
+                                onChange={handleChange} 
+                                className={`w-full px-4 py-2 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+                                placeholder="Enter event name" 
+                              />
+                              {errors.name && (<p className="mt-1 text-sm text-red-500">{errors.name}</p>)}
+                            </div>
                     {/* Details */}
                     <div>
                         <label
@@ -282,13 +237,9 @@ export default function CreateEvent() {
                     )}
                 </form>
             </div>
+{/* Footer - moved to globalComponents */}
 
-            {/* Footer */}
-            <footer>
-                <div className="bg-indigo-950 text-white text-center position-absolute">
-                    Created by Team 4
-                </div>
-            </footer>
-        </div>
-    )
+
+    </div>
+  );
 }
