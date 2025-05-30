@@ -9,9 +9,9 @@ export default function EventsPage() {
   const [error, setError] = useState(null);
   
   const options = {
-    weekday: "long",
+    weekday: "short",
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   };
 
@@ -19,10 +19,10 @@ export default function EventsPage() {
     const fetchEvents = async () => {
      try {
         const apiClient = new ApiClient();
-        if (!apiClient.isLoggedIn()) {
+        /*if (!apiClient.isLoggedIn()) {
           window.location.href = '/unauthorized';
           return;
-        }
+        }*/
         const response = await apiClient.getEvents();
         setEvents(response);
       } catch (err) {
@@ -66,7 +66,7 @@ export default function EventsPage() {
       {/* Navbar - moved to Navigation.js in globalComponents*/}
 
       
-      <div className="max-w-2xl mx-auto p-6">
+      <div className="min-h-screen max-w-screen mx-10 p-6">
       <h1 className="text-3xl font-bold text-white mb-8">Browse Events</h1>
       
       {events.length === 0 ? (
@@ -74,36 +74,48 @@ export default function EventsPage() {
           <p className="text-gray-600 text-lg">No events found.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-content-stretch">
           {events.map((event) => (
             <div 
               key={event._id}
-              className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl  overflow-hidden hover:shadow-md shadow-gray-900 transition-shadow"
             >
               <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                <h2 className="text-xl font-bold text-gray-950 mb-2">
                   {event.name}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">
+                <p className="text-gray-700 mb-4">
                   {event.location}
                 </p>
-                  <p className="text-lg font-semi text-gray-900 dark:text-white">
+                  <p className="text-md font-normal text-gray-900 line-clamp-3 mb-2">
                     {event.details}
                   </p>
-                  <div className="text-md text-blue-600 dark:text-white">
-                  {new Date(event.datetime).toLocaleDateString(undefined, options)} at {new Date(event.datetime).toLocaleTimeString()}
+                  <div className="text-lg font-normal text-blue-800 mb-2">
+                  {new Date(event.datetime).toLocaleDateString(undefined, options)} at {new Date(event.datetime).toLocaleTimeString().slice(0,5)}
                   </div>
               </div>
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
-                <form action="/api/contact" method="POST">
-                  <input type="hidden" name="adId" value={event.id} />
+              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center gap-5">
+                {/*<form action="/api/contact" method="POST">
+                  <input type="hidden" name="eventId" value={event.id} />
                   <button 
                     type="submit"
                     className="w-full bg-indigo-950 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                   >
                     Buy Tickets
                   </button>
-                </form>
+                </form>*/}
+                <button 
+                    //TODO: onClick={}
+                    className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                  >
+                    Update
+                  </button>
+                  <button 
+                    className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                    //TODO: onClick={()=> deleteEvent(event._id)}
+                  >
+                    Delete
+                  </button>
               </div>
             </div>
           ))}
