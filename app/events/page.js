@@ -1,12 +1,20 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../../apiClient/apiClient';
+import Link from "next/link"
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [editEvent, setEditEvent] = useState(null);
+  const [editForm, setEditForm] = useState ({
+    name: '',
+    location: '',
+    details: '',
+    date: ''
+  });
   
   const options = {
     weekday: "short",
@@ -127,10 +135,19 @@ export default function EventsPage() {
                   </button>
                 </form>*/}
                 <button 
-                    //TODO: onClick={}
                     className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                    onClick={() => {
+                      setEditEvent(event);
+                      setEditForm({
+                        id: event._id,
+                        name: event.name, 
+                        location: event.location,
+                        details: event.details,
+                        datetime: event.datetime
+                      })
+                    }}
                   >
-                    Update
+                    Edit
                   </button>
                   <button 
                     className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
@@ -141,6 +158,105 @@ export default function EventsPage() {
               </div>
             </div>
           ))}
+
+{/* ==== Conditional rendering for edit event form ==== */}
+{editEvent && editForm && (
+  <div className="min-h-screen flex items-center justify-center bg-purple-700 dark:bg-gray-900">
+    <form className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md w-full max-w-md space-y-6">
+      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white text-center"> Edit Event </h1>
+
+      {/* Name */}
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          placeholder="Enter event name"
+          value={editForm.name || ''} 
+          onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+          className={`w-full px-4 py-2 rounded-lg border ${error?.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+        />
+      </div>
+
+      {/* Location */}
+      <div>
+        <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+        <input 
+          type="text" 
+          id="location" 
+          name="location" 
+          placeholder="Enter event location" 
+          value={editForm.location || ''} 
+          onChange={(e) => setEditForm({ ...editForm, location: e.target.value })} 
+          className={`w-full px-4 py-2 rounded-lg border ${error?.location ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+        />
+      </div>
+
+      {/* Details */}
+      <div>
+        <label htmlFor="details" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Details</label>
+        <textarea 
+          id="details" 
+          name="details" 
+          placeholder="Enter event description"
+          value={editForm.details || ''} 
+          onChange={(e) => setEditForm({ ...editForm, details: e.target.value })} 
+          rows={4} 
+          className={`w-full px-4 py-2 rounded-lg border ${error?.details ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}    
+        />
+      </div>
+
+      {/* Date and Time */}
+      <div>
+        <label htmlFor="datetime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date and Time</label>
+        <input 
+          type="datetime-local" 
+          id="datetime" 
+          name="datetime"
+          value={editForm.datetime || ''} 
+          onChange={(e) => setEditForm({ ...editForm, datetime: e.target.value })} 
+          className={`w-full px-4 py-2 rounded-lg border ${error?.datetime ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+        />
+      </div>
+
+      {/* Submit/Cancel Buttons */}
+      <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center gap-5">
+      <button
+          className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          onClick={() => {
+            setEditEvent(null);
+            setEditForm(null);
+          }}
+        >
+          Cancel
+        </button>
+
+        <button 
+          className="w-full bg-indigo-950 text-white py-2 px-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          onClick={async () => {
+            const apiClient = new ApiClient();
+            try {
+              await apiClient.updateEvent(editForm.id, editForm.name, editForm.location, editForm.details, editForm.datetime);
+              setEditEvent(null); 
+              setEditForm(null); 
+              window.location.reload();
+            } catch (error) {
+              const message = error.response?.data?.message || "Update failed.";
+              alert(message);
+              console.error("Update failed", error.response?.data || error.message);
+            }
+          }}
+        >
+          Save 
+        </button>
+
+      </div>
+    </form>
+  </div>
+)}
+{/* ========================================*/}
+
         </div>
       )}
     </div>
