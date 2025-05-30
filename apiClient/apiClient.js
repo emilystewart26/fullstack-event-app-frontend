@@ -99,6 +99,49 @@ export class ApiClient {
     }
   }
 
+  async getEventById(id) {
+        try {
+            const response = await this.apiCall("get", url + `events/${id}`)
+            return response.data
+        } catch (error) {
+            throw error
+        }
+    }
+
+  async getEventsByUserId(userId) {
+      try {
+        const response = await this.apiCall("get", url + `events/userid/${userId}`)
+        return response.data
+      } catch (error) {
+        console.error("getEventsByUserId error:", error.response || error)
+        throw error
+      }
+  }
+
+  async getEventByName(name) {
+        try {
+            return this.apiCall(
+                "get",
+                url + `events/name/${encodeURIComponent(name)}`
+            )
+        } catch (error) {
+            console.error("getEventByName error:", error.response || error)
+            throw error
+    };
+  }
+
+  async getEventsByLocation(location) {
+        try {
+            return this.apiCall(
+                "get",
+                url + `events/location/${encodeURIComponent(location)}`
+            )
+        } catch (error) {
+            console.error("getEventsByLocation error:", error.response || error)
+            throw error
+        }
+    }
+
   async addEvent(name, location, details, datetime) {
     try {
       return this.apiCall("post", url + "events", { 
