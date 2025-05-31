@@ -25,7 +25,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-     try {
+      try {
         const apiClient = new ApiClient();
         if (!apiClient.isLoggedIn()) {
           window.location.href = '/unauthorized';
