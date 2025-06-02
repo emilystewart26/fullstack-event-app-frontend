@@ -1,41 +1,44 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ApiClient } from '../../apiClient/apiClient';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useState } from "react";
+import { ApiClient } from "../../apiClient/apiClient";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
 
 export default function UserLoginPage() {
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth(); // Get login function from context
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError('');
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
-      setError('Please enter both email and password.');
+      setError("Please enter both email and password.");
       return;
     }
     setLoading(true);
     try {
       const apiClient = new ApiClient();
       const response = await apiClient.login(form.email, form.password);
-      
+
       // Check if we have a token
       if (response.data && response.data.token) {
-        router.push('/events');
+        login(response.data.token); // <-- update context here
+        router.push("/events"); // Redirect after login
       } else {
-        setError('Login successful but no token received');
+        setError("Login successful but no token received");
       }
     } catch (err) {
-      console.error('Login error:', err.response || err); // Debug log
-      setError(err.response?.data?.message || 'Invalid credentials or server error.');
+      console.error("Login error:", err.response || err);
+      setError(err.response?.data?.message || "Invalid credentials or server error.");
     } finally {
       setLoading(false);
     }
@@ -49,7 +52,10 @@ export default function UserLoginPage() {
       >
         <h1 className="text-2xl font-bold mb-6 text-gray-900 text-center">Login</h1>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Email
           </label>
           <input
@@ -65,7 +71,10 @@ export default function UserLoginPage() {
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Password
           </label>
           <input
@@ -80,16 +89,18 @@ export default function UserLoginPage() {
             required
           />
         </div>
-        {error && <p className="mb-4 text-red-500 text-sm text-center">{error}</p>}
+        {error && (
+          <p className="mb-4 text-red-500 text-sm text-center">{error}</p>
+        )}
         <button
           type="submit"
           disabled={loading}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? "Logging in..." : "Login"}
         </button>
         <Link href="/register">
-          <p className='mt-6 text-center text-sm text-slate-400 hover:underline hover:cursor-pointer hover:text-slate-200'>
+          <p className="mt-6 text-center text-sm text-slate-400 hover:underline hover:cursor-pointer hover:text-slate-200">
             Don't have account? Click here to register.
           </p>
         </Link>
