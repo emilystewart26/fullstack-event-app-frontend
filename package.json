@@ -13,7 +13,7 @@
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-loader-spinner": "^6.1.6"
+    "react-loading-spin": "^2.1.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
